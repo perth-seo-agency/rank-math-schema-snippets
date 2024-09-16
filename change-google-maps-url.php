@@ -1,0 +1,24 @@
+<?php
+/*
+ * Filter The Value Of The Rank Math "hasMap" Schema Property.
+ * 
+ * By default, Rank Math uses a Google Maps URL that only contains the coordinates.
+ * 
+ * However, it should use the CID URL vs just using the coordinates.
+ */
+
+// Add custom hasMap property using the Google Maps Profile's CID URL
+add_filter( 'rank_math/json_ld', function( $data, $jsonld ) {
+	if ( isset($data['publisher']) ) {
+		$data['publisher']['hasMap'] = 'https://www.google.com/maps?cid=123456789';
+	}
+	return $data;
+}, 99, 2);
+
+// Remove the defaul Rank Math "coordinates"
+add_filter( 'rank_math/json_ld', function( $data, $jsonld ) {
+    if ( isset( $data['place'] ) && isset( $data['place']['hasMap'] ) ) {
+        unset( $data['place']['hasMap'] );
+    }
+    return $data;
+}, 99, 2);
