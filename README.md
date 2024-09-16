@@ -1,0 +1,1 @@
+# rank-math-schema-snippets
